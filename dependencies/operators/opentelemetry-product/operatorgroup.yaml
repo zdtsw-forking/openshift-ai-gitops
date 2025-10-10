@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: opentelemetry-product-operatorgroup
+  namespace: openshift-opentelemetry-operator
+spec:
+  targetNamespaces:
+  - openshift-opentelemetry-operator

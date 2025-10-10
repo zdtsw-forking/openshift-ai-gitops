@@ -1,0 +1,8 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: tempo-product-operatorgroup
+  namespace: openshift-tempo-operator
+spec:
+  targetNamespaces:
+  - openshift-tempo-operator
