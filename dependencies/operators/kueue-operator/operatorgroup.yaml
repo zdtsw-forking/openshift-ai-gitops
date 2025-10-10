@@ -2,7 +2,7 @@ apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
   name: kueue-operator-operatorgroup
-  namespace: openshift-operators
+  namespace: openshift-kueue-operator
 spec:
   targetNamespaces:
-  - openshift-operators
+  - openshift-kueue-operator

@@ -16,40 +16,41 @@ openshift-ai-gitops/
 └── dependencies/
     ├── kustomization.yaml
     ├── cluster-config/
-    │   └── kustomization.yaml
+    │   ├── kustomization.yaml
+    │   └── default-kueue.yaml
     └── operators/
         ├── kustomization.yaml
         ├── README-labels.md
-        ├── authorino-operator/
-        │   └── kustomization.yaml
+        ├── cert-manager/
+        │   ├── kustomization.yaml
+        │   ├── namespace.yaml
+        │   ├── subscription.yaml
+        │   └── operatorgroup.yaml
         ├── cluster-observability-operator/
         │   ├── kustomization.yaml
+        │   ├── namespace.yaml
         │   ├── subscription.yaml
         │   └── operatorgroup.yaml
         ├── jobset/
         │   └── kustomization.yaml
         ├── kueue-operator/
         │   ├── kustomization.yaml
+        │   ├── namespace.yaml
         │   ├── subscription.yaml
         │   └── operatorgroup.yaml
         ├── leader-worker-set/
         │   ├── kustomization.yaml
+        │   ├── namespace.yaml
         │   ├── subscription.yaml
         │   └── operatorgroup.yaml
         ├── opentelemetry-product/
         │   ├── kustomization.yaml
+        │   ├── namespace.yaml
         │   ├── subscription.yaml
         │   └── operatorgroup.yaml
-        ├── rhcl-operator/
-        │   ├── kustomization.yaml
-        │   ├── subscription.yaml
-        │   └── operatorgroup.yaml
-        ├── serverless-operator/
-        │   └── kustomization.yaml
-        ├── servicemesh-operator/
-        │   └── kustomization.yaml
         └── tempo-product/
             ├── kustomization.yaml
+            ├── namespace.yaml
             ├── subscription.yaml
             └── operatorgroup.yaml
 ```
@@ -59,6 +60,10 @@ openshift-ai-gitops/
 ### `dependencies/`
 Contains all infrastructure dependencies required for OpenShift AI.
 
+#### `dependencies/cluster-config/`
+Cluster-level configurations:
+- **default-kueue.yaml**: Default Kueue configuration for cluster-wide job queuing
+
 #### `dependencies/operators/`
 OpenShift operators managed via OLM (Operator Lifecycle Manager) with label-based categorization:
 
@@ -67,25 +72,17 @@ OpenShift operators managed via OLM (Operator Lifecycle Manager) with label-base
 - **tempo-product**: Distributed tracing backend
 - **opentelemetry-product**: OpenTelemetry observability
 
-**Auth Operators** (`auth=true`):
-- **rhcl-operator**: Red Hat Container Library authentication
-
 **Serving Operators** (`serving=true`):
 - **rhcl-operator**: Red Hat Container Library (also auth)
 - **leader-worker-set**: Leader-worker set management (also distributed workload)
+- **cert-manager**: Certificate management (also distributed workload)
 
 **Distributed Workload Operators** (`distributedworkload=true`):
 - **kueue-operator**: Job queuing and resource management
 - **leader-worker-set**: Leader-worker set management (also serving)
+- **cert-manager**: Certificate management (also serving)
 
 See `dependencies/operators/README-labels.md` for detailed usage instructions.
-
-#### `dependencies/cluster-config/`
-Cluster-level configurations such as:
-- ConfigMaps
-- Network policies
-- Storage classes
-- Custom resources
 
 ## Usage
 
@@ -95,51 +92,13 @@ This repository contains operator configurations that can be deployed using stan
 # Apply all operators
 kubectl apply -k dependencies/operators/
 
+# Apply cluster configurations
+kubectl apply -k dependencies/cluster-config/
+
 # Apply operators by category using labels
 kustomize build dependencies/operators/ | kubectl apply -f - -l monitoring=true
-kustomize build dependencies/operators/ | kubectl apply -f - -l auth=true
 kustomize build dependencies/operators/ | kubectl apply -f - -l serving=true
 kustomize build dependencies/operators/ | kubectl apply -f - -l distributedworkload=true
 ```
 
 See `dependencies/operators/README-labels.md` for detailed label-based deployment instructions.
-
-## Adding New Operators
-
-1. Create a new directory under `dependencies/operators/`:
-```bash
-mkdir -p dependencies/operators/my-operator
-```
-
-2. Add operator resources (Subscription, OperatorGroup, etc.):
-```bash
-cat > dependencies/operators/my-operator/kustomization.yaml <<EOF
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - subscription.yaml
-  - operatorgroup.yaml
-EOF
-```
-
-3. Update `dependencies/operators/kustomization.yaml`:
-```yaml
-resources:
-  - leader-worker-set
-  - kueue-operator
-  - rhcl-operator
-  - cluster-observability-operator
-  - tempo-product
-  - opentelemetry-product
-```
-
-4. Add appropriate labels to your operator's kustomization.yaml:
-```yaml
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-metadata:
-  labels:
-    monitoring: "true"  # or auth, serving, distributedworkload
-resources:
-  - subscription.yaml
-```

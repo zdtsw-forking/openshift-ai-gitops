@@ -5,9 +5,7 @@ resources:
   # - jobset
   - kueue-operator
   - rhcl-operator
-  # - servicemesh-operator
-  # - serverless-operator
-  # - authorino-operator
   - cluster-observability-operator
   - tempo-product
   - opentelemetry-product
+  - cert-manager

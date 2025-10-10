@@ -22,16 +22,6 @@ kustomize build . | oc apply -f - -l serving=true
 kustomize build . | oc apply -f - -l distributedworkload=true
 ```
 
-## Apply only Openshift AI v2 operators:
-```bash
-kustomize build . | oc apply -f - -l v2=true
-```
-
-## Apply only Openshift AI v3 operators:
-```bash
-kustomize build . | oc apply -f - -l v3=true
-```
-
 ## Apply all operators:
 ```bash
 kustomize build . | oc apply -f -

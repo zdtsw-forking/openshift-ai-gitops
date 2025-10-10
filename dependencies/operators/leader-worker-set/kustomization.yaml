@@ -6,5 +6,6 @@ metadata:
     distributedworkload: "true"
     v3: "true"
 resources:
+  - namespace.yaml
   - subscription.yaml
   - operatorgroup.yaml
