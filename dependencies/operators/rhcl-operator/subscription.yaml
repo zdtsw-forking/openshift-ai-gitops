@@ -10,3 +10,7 @@ spec:
   sourceNamespace: openshift-marketplace
   installPlanApproval: Automatic
   startingCSV: rhcl-operator.v1.1.0
+  config:
+    env:
+      - name: ISTIO_GATEWAY_CONTROLLER_NAMES
+        value: openshift.io/gateway-controller/v1
