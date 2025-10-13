@@ -9,3 +9,4 @@ resources:
   - namespace.yaml
   - subscription.yaml
   - operatorgroup.yaml
+  - lws.yaml

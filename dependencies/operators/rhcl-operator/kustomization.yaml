@@ -8,3 +8,4 @@ metadata:
 resources:
   - subscription.yaml
   - operatorgroup.yaml
+  - authorino
