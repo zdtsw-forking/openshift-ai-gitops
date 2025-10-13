@@ -3,6 +3,4 @@ kind: OperatorGroup
 metadata:
   name: opentelemetry-product-operatorgroup
   namespace: openshift-opentelemetry-operator
-spec:
-  targetNamespaces:
-  - openshift-opentelemetry-operator
+

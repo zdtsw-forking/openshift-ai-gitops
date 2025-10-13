@@ -3,6 +3,4 @@ kind: OperatorGroup
 metadata:
   name: rhcl-operator-operatorgroup
   namespace: openshift-operators
-spec:
-  targetNamespaces:
-  - openshift-operators
+
