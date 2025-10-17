@@ -6,13 +6,13 @@ spec:
   components:
     dashboard:
       managementState: Managed
-    datasciencepipelines:
+    aipipelines:
       managementState: Managed
     kserve:
       managementState: Managed
       nim:
         managementState: Managed
-      rawDeploymentServiceConfig: Headed
+      rawDeploymentServiceConfig: Headless
     kueue:
       managementState: Removed
     modelregistry:
@@ -24,6 +24,10 @@ spec:
       managementState: Managed
     trustyai:
       managementState: Managed
+      eval:
+        lmeval:
+          permitCodeExecution: deny
+          permitOnline: deny
     workbenches:
       managementState: Managed
     feastoperator:
